@@ -197,6 +197,16 @@ def simulate_waste_fee_scenario():
     sessions_per_week = request.args.get('sessions_per_week', 5, type=int)
     avg_savings_kwh = request.args.get('avg_savings_kwh', 2.0, type=float)
 
+    # Validate parameters
+    errors = []
+    if not (1 <= annual_fee <= 10000):
+        errors.append("annual_fee must be between 1 and 10,000 EUR.")
+    if not (1 <= sessions_per_week <= 21):
+        errors.append("sessions_per_week must be between 1 and 21.")
+    if not (0.1 <= avg_savings_kwh <= 100):
+        errors.append("avg_savings_kwh must be between 0.1 and 100 kWh.")
+    if errors:
+        return jsonify({"status": "error", "errors": errors}), 400
     scenario = waste_fee_engine.simulate_scenario(
         annual_fee=annual_fee,
         sessions_per_week=sessions_per_week,
