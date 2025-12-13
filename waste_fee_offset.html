@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Fee Offset - PowerSave Cyprus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 1.3em;
+            font-style: italic;
+        }
+
+        .tagline {
+            color: #667eea;
+            font-size: 1.1em;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .card h2 {
+            color: #2d3748;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            font-size: 1.5em;
+        }
+
+        /* Progress Section */
+        .progress-container {
+            margin: 25px 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #4a5568;
+            font-size: 1.1em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 40px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78 0%, #38a169 100%);
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        /* Session Simulator */
+        .session-controls {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .slider-container {
+            flex: 1;
+        }
+
+        .slider {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .slider-value {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #667eea;
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 12px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+
+        .checkbox-label input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        /* Session Result */
+        .session-result {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .session-result.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .session-result h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .session-details {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        /* Tips Section */
+        .tips-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .tip-card {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .tip-card.high-priority {
+            border-left-color: #f5576c;
+        }
+
+        .tip-card.medium-priority {
+            border-left-color: #4facfe;
+        }
+
+        .tip-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .tip-icon {
+            font-size: 2em;
+        }
+
+        .tip-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .tip-description {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .tip-savings {
+            margin-top: 10px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Scenario Calculator */
+        .scenario-inputs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .scenario-result {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .scenario-result h3 {
+            font-size: 1.6em;
+            margin-bottom: 20px;
+        }
+
+        .scenario-stat {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .scenario-stat strong {
+            font-size: 1.3em;
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #c6f6d5;
+            border-left: 5px solid #48bb78;
+            color: #22543d;
+        }
+
+        .alert-info {
+            background: #bee3f8;
+            border-left: 5px solid #4299e1;
+            color: #2c5282;
+        }
+
+        /* Full Width Card */
+        .card-full {
+            grid-column: 1 / -1;
+        }
+
+        /* Hidden */
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .scenario-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .session-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 Waste Fee Offset</h1>
+            <p class="subtitle">Πώς να μηδενίσετε τα Τέλη Σκυβάλων σας</p>
+            <p class="tagline">κλείνοντας απλά τον διακόπτη.</p>
+        </header>
+
+        <div id="setup-section" class="card card-full">
+            <h2><span class="card-icon">🏠</span> Βήμα 1: Σύνδεση Υποστατικού</h2>
+            <p style="color: #718096; margin-bottom: 25px;">
+                Συνδέστε τον λογαριασμό Σκυβάλων σας για να ξεκινήσετε
+            </p>
+
+            <form id="setup-form">
+                <div class="form-group">
+                    <label class="form-label">Ονοματεπώνυμο</label>
+                    <input type="text" class="form-input" id="owner_name" required
+                           placeholder="π.χ. Γιώργος Παπαδόπουλος">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Αριθμός Υποστατικού</label>
+                    <input type="text" class="form-input" id="property_number" required
+                           placeholder="π.χ. 12345678">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Δήμος</label>
+                    <select class="form-select" id="municipality" required>
+                        <option value="">Επιλέξτε Δήμο...</option>
+                        <option value="nicosia">Δήμος Λευκωσίας</option>
+                        <option value="limassol">Δήμος Λεμεσού</option>
+                        <option value="larnaca">Δήμος Λάρνακας</option>
+                        <option value="paphos">Δήμος Πάφου</option>
+                        <option value="famagusta">Δήμος Αμμοχώστου</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Διεύθυνση</label>
+                    <input type="text" class="form-input" id="address" required
+                           placeholder="π.χ. Λεωφ. Μακαρίου 123, Λευκωσία">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Ετήσιο Τέλος Σκυβάλων (€)</label>
+                    <input type="number" class="form-input" id="annual_fee" required
+                           value="185.00" step="0.01" min="0">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    Σύνδεση Λογαριασμού
+                </button>
+            </form>
+        </div>
+
+        <div id="main-content" class="hidden">
+            <div class="main-grid">
+                <!-- Waste Wallet Card -->
+                <div class="card">
+                    <h2><span class="card-icon">👛</span> Το Waste Wallet μου</h2>
+
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Πρόοδος προς στόχο:</span>
+                            <span id="progress-text">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill" style="width: 0%">
+                                0%
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-value" id="wallet-balance">€0.00</div>
+                            <div class="stat-label">Διαθέσιμο Υπόλοιπο</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="annual-goal">€185.00</div>
+                            <div class="stat-label">Ετήσιος Στόχος</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="total-sessions">0</div>
+                            <div class="stat-label">Sessions Ολοκληρώθηκαν</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="total-kwh">0.0 kWh</div>
+                            <div class="stat-label">Συνολική Εξοικονόμηση</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success btn-block" style="margin-top: 20px;" onclick="processPayment()">
+                        💸 Πληρωμή στον Δήμο
+                    </button>
+                </div>
+
+                <!-- Session Simulator Card -->
+                <div class="card">
+                    <h2><span class="card-icon">⚡</span> Session Εξοικονόμησης</h2>
+                    <p style="color: #718096; margin-bottom: 20px;">
+                        Δοκιμάστε να ολοκληρώσετε ένα Session
+                    </p>
+
+                    <div class="session-controls">
+                        <div class="slider-container">
+                            <label class="form-label">
+                                Κατανάλωση κατά το Session:
+                                <span class="slider-value" id="actual-kwh-value">2.0 kWh</span>
+                            </label>
+                            <input type="range" class="slider" id="actual-kwh-slider"
+                                   min="0.5" max="4.0" step="0.1" value="2.0"
+                                   oninput="updateSliderValue(this.value)">
+                        </div>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="double-points">
+                            <span>⭐ Double Points Day</span>
+                        </label>
+                    </div>
+
+                    <button class="btn btn-primary btn-block" onclick="completeSession()">
+                        Ολοκλήρωση Session
+                    </button>
+
+                    <div id="session-result" class="session-result">
+                        <h3 id="session-message">Μπράβο!</h3>
+                        <div class="session-details" id="session-details"></div>
+                    </div>
+                </div>
+
+                <!-- Tips Card -->
+                <div class="card">
+                    <h2><span class="card-icon">💡</span> Tips για Μέγιστο Κέρδος</h2>
+                    <div id="tips-container" class="tips-grid">
+                        <!-- Tips will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Scenario Calculator Card -->
+                <div class="card">
+                    <h2><span class="card-icon">📊</span> Υπολογισμός Σεναρίου</h2>
+                    <p style="color: #718096; margin-bottom: 20px;">
+                        Δείτε πόσα μπορείτε να εξοικονομήσετε ετησίως
+                    </p>
+
+                    <div class="scenario-inputs">
+                        <div class="form-group">
+                            <label class="form-label">Sessions/Εβδομάδα</label>
+                            <input type="number" class="form-input" id="sessions-per-week"
+                                   value="5" min="1" max="14">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Μέση Εξοικονόμηση (kWh)</label>
+                            <input type="number" class="form-input" id="avg-savings"
+                                   value="2.0" min="0.1" max="5.0" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Ετήσιο Τέλος (€)</label>
+                            <input type="number" class="form-input" id="scenario-annual-fee"
+                                   value="185.00" step="0.01">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-block" onclick="calculateScenario()">
+                        Υπολογισμός
+                    </button>
+
+                    <div id="scenario-result" class="scenario-result hidden">
+                        <!-- Scenario results will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUserId = 'demo_user';
+        let historicalConsumption = [2.5, 2.3, 2.6, 2.4, 2.5, 2.7, 2.4, 2.5, 2.6, 2.3];
+
+        // Setup Form Submission
+        document.getElementById('setup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const accountData = {
+                user_id: currentUserId,
+                owner_name: document.getElementById('owner_name').value,
+                property_number: document.getElementById('property_number').value,
+                municipality: document.getElementById('municipality').value,
+                address: document.getElementById('address').value,
+                annual_fee: parseFloat(document.getElementById('annual_fee').value)
+            };
+
+            try {
+                const response = await fetch('/api/waste-fee/account/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(accountData)
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    document.getElementById('setup-section').classList.add('hidden');
+                    document.getElementById('main-content').classList.remove('hidden');
+                    loadWalletData();
+                    loadTips();
+                }
+            } catch (error) {
+                alert('Σφάλμα σύνδεσης: ' + error.message);
+            }
+        });
+
+        // Load Wallet Data
+        async function loadWalletData() {
+            try {
+                const response = await fetch(`/api/waste-fee/wallet/${currentUserId}`);
+                const wallet = await response.json();
+
+                document.getElementById('wallet-balance').textContent = `€${wallet.balance_eur.toFixed(2)}`;
+                document.getElementById('annual-goal').textContent = `€${wallet.annual_goal_eur.toFixed(2)}`;
+                document.getElementById('total-sessions').textContent = wallet.total_sessions_completed;
+                document.getElementById('total-kwh').textContent = `${wallet.total_kwh_saved.toFixed(1)} kWh`;
+                document.getElementById('progress-text').textContent = `${wallet.progress_percentage}%`;
+
+                const progressBar = document.getElementById('progress-fill');
+                progressBar.style.width = `${wallet.progress_percentage}%`;
+                progressBar.textContent = `${wallet.progress_percentage}%`;
+
+                // Store annual goal for scenario calculator
+                document.getElementById('scenario-annual-fee').value = wallet.annual_goal_eur.toFixed(2);
+            } catch (error) {
+                console.error('Error loading wallet:', error);
+            }
+        }
+
+        // Update Slider Value
+        function updateSliderValue(value) {
+            document.getElementById('actual-kwh-value').textContent = `${parseFloat(value).toFixed(1)} kWh`;
+        }
+
+        // Complete Session
+        async function completeSession() {
+            const actualKwh = parseFloat(document.getElementById('actual-kwh-slider').value);
+            const isDoublePoints = document.getElementById('double-points').checked;
+
+            try {
+                const response = await fetch('/api/waste-fee/session/complete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: currentUserId,
+                        actual_kwh: actualKwh,
+                        historical_consumption: historicalConsumption,
+                        is_double_points: isDoublePoints
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    // Show session result
+                    document.getElementById('session-message').textContent = result.message;
+                    document.getElementById('session-details').innerHTML = `
+                        <p><strong>Baseline:</strong> ${result.session.baseline_kwh} kWh</p>
+                        <p><strong>Πραγματική Κατανάλωση:</strong> ${result.session.actual_kwh} kWh</p>
+                        <p><strong>Εξοικονόμηση:</strong> ${result.session.savings_kwh} kWh</p>
+                        <p style="font-size: 1.3em; margin-top: 10px;">
+                            <strong>Κέρδος: €${result.session.earnings_eur}</strong>
+                        </p>
+                    `;
+                    document.getElementById('session-result').classList.add('show');
+
+                    // Reload wallet data
+                    setTimeout(loadWalletData, 1000);
+
+                    // Update historical consumption (simulate history)
+                    historicalConsumption.push(actualKwh);
+                    if (historicalConsumption.length > 10) {
+                        historicalConsumption.shift();
+                    }
+                }
+            } catch (error) {
+                alert('Σφάλμα: ' + error.message);
+            }
+        }
+
+        // Process Payment
+        async function processPayment() {
+            if (!confirm('Επιβεβαίωση πληρωμής στον Δήμο;')) return;
+
+            try {
+                const response = await fetch('/api/waste-fee/payment/process', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: currentUserId })
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    alert(result.receipt + `\nΥπόλοιπο Ετήσιου Τέλους: €${result.remaining_annual_fee}`);
+                    loadWalletData();
+                } else if (result.status === 'no_payment') {
+                    alert(result.message);
+                }
+            } catch (error) {
+                alert('Σφάλμα: ' + error.message);
+            }
+        }
+
+        // Load Tips
+        async function loadTips() {
+            try {
+                const currentHour = new Date().getHours();
+                const response = await fetch(`/api/waste-fee/tips?time_of_day=${currentHour}`);
+                const data = await response.json();
+
+                const container = document.getElementById('tips-container');
+                container.innerHTML = data.tips.map(tip => `
+                    <div class="tip-card ${tip.priority}-priority">
+                        <div class="tip-header">
+                            <div class="tip-icon">${tip.icon}</div>
+                            <div class="tip-title">${tip.title}</div>
+                        </div>
+                        <div class="tip-description">${tip.description}</div>
+                        ${tip.potential_savings_kwh ?
+                            `<div class="tip-savings">Δυνητική εξοικονόμηση: ~${tip.potential_savings_kwh} kWh</div>`
+                            : ''}
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading tips:', error);
+            }
+        }
+
+        // Calculate Scenario
+        async function calculateScenario() {
+            const sessionsPerWeek = parseInt(document.getElementById('sessions-per-week').value);
+            const avgSavings = parseFloat(document.getElementById('avg-savings').value);
+            const annualFee = parseFloat(document.getElementById('scenario-annual-fee').value);
+
+            try {
+                const response = await fetch(
+                    `/api/waste-fee/simulate?annual_fee=${annualFee}&sessions_per_week=${sessionsPerWeek}&avg_savings_kwh=${avgSavings}`
+                );
+                const scenario = await response.json();
+
+                const resultDiv = document.getElementById('scenario-result');
+                resultDiv.innerHTML = `
+                    <h3>Αποτελέσματα Ετήσιου Σεναρίου</h3>
+                    <div class="scenario-stat">
+                        <strong>${scenario.weeks_to_reach_goal}</strong> εβδομάδες για να φτάσετε τον στόχο
+                    </div>
+                    <div class="scenario-stat">
+                        <strong>${scenario.total_sessions}</strong> συνολικά sessions (${sessionsPerWeek}/εβδομάδα)
+                    </div>
+                    <div class="scenario-stat">
+                        <strong>${scenario.total_kwh_saved} kWh</strong> ετήσια εξοικονόμηση
+                    </div>
+                    <div class="scenario-stat">
+                        <strong>€${scenario.total_earnings.toFixed(2)}</strong> συνολικά κέρδη
+                    </div>
+                    <div class="scenario-stat">
+                        <strong>${scenario.fee_coverage_percentage}%</strong> κάλυψη ετήσιου τέλους
+                    </div>
+                    ${scenario.surplus_available > 0 ? `
+                        <div class="scenario-stat" style="background: rgba(72, 187, 120, 0.3);">
+                            <strong>€${scenario.surplus_available.toFixed(2)}</strong> πλεόνασμα διαθέσιμο για δωρεά!
+                        </div>
+                    ` : ''}
+                `;
+                resultDiv.classList.remove('hidden');
+            } catch (error) {
+                alert('Σφάλμα υπολογισμού: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
