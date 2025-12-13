@@ -528,12 +528,13 @@
 
                     <div class="session-controls">
                         <div class="slider-container">
-                            <label class="form-label">
+                            <label class="form-label" id="actual-kwh-label" for="actual-kwh-slider">
                                 Κατανάλωση κατά το Session:
                                 <span class="slider-value" id="actual-kwh-value">2.0 kWh</span>
                             </label>
                             <input type="range" class="slider" id="actual-kwh-slider"
                                    min="0.5" max="4.0" step="0.1" value="2.0"
+                                   aria-labelledby="actual-kwh-label actual-kwh-value"
                                    oninput="updateSliderValue(this.value)">
                         </div>
 
