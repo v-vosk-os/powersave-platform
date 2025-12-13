@@ -124,7 +124,14 @@ def complete_saving_session():
     data = request.json
 
     user_id = data.get('user_id', 'demo_user')
-    actual_kwh = float(data['actual_kwh'])
+    # Validate actual_kwh
+    actual_kwh_raw = data.get('actual_kwh')
+    try:
+        actual_kwh = float(actual_kwh_raw)
+    except (TypeError, ValueError):
+        return jsonify({"error": "Invalid or missing 'actual_kwh'. Must be a number."}), 400
+    if not (0 <= actual_kwh <= 100):
+        return jsonify({"error": "'actual_kwh' must be between 0 and 100 kWh."}), 400
     historical_consumption = data.get('historical_consumption', [2.5, 2.3, 2.6, 2.4, 2.5])
     is_double_points = data.get('is_double_points', False)
 
